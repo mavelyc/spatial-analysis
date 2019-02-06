@@ -7,15 +7,6 @@ from shapely.geometry import MultiPolygon
 from shapely.geometry import box
 from ast import literal_eval
 
-# polygon = Polygon(list1)
-# print (polygon.area)
-# print (polygon.length)
-
-#object.contains(other)  This returns True if no points of other lie in the exterior of the object and at least one point of the interior of other lies in the interior of object
-#object.within(other)  This is the same as object.contains but only returns True if the obeject within intersects ONLY with interior not its boundary
-
-# print(polygon.contains(polygon2))
-
 class Room:
     def __init__(self, shape):
         self.shape = shape
@@ -54,6 +45,8 @@ def doesContain(room, unit):
 
 
 
+
+#---------------------------------------------------------------------------------------------------------------------------
 def main():
     howMany()
     room = Room(shapeOfRoom).setSurface()
