@@ -20,9 +20,8 @@ class Room:
     def __init__(self, shape):
         self.shape = shape
 
-    def area(self):
-        tmp = Polygon(self.shape)
-        print (tmp.area)
+    def setSurface(self):
+        return Polygon(self.shape)
 
 class Unit:
     def __init__(self, number, shape):
@@ -49,17 +48,20 @@ def howMany():
     #numberOfBoilers = input("Enter the number of boilers: ")
     #lengthWidthBoiler = literal_eval(input("Enter the width and length of boiler [width,length]: "))
 
-def doesContain():
-    pass
+def doesContain(room, unit):
+    return room.contains(unit)
 
 
 
 
 def main():
     howMany()
-    room = Room(shapeOfRoom)
+    room = Room(shapeOfRoom).setSurface()
     chiller = Unit(1,lengthWidthChiller).setBox()
-    print(chiller.length)
+    print (room.area, chiller.area)
+    if (doesContain(room, chiller)): print('True')
+    else: print ('False')
+
 
     
 if __name__ == '__main__':
