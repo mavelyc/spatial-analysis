@@ -4,13 +4,12 @@
 
 from shapely.geometry import Polygon
 from shapely.geometry import MultiPolygon
+from shapely.geometry import box
 from ast import literal_eval
 
-# list1 = literal_eval(input("Enter it: "))
 # polygon = Polygon(list1)
 # print (polygon.area)
 # print (polygon.length)
-# print (type(list1))
 
 #object.contains(other)  This returns True if no points of other lie in the exterior of the object and at least one point of the interior of other lies in the interior of object
 #object.within(other)  This is the same as object.contains but only returns True if the obeject within intersects ONLY with interior not its boundary
@@ -29,24 +28,38 @@ class Unit:
     def __init__(self, number, shape):
         self.number = number
         self.shape = shape
+    
+    def setBox(self):
+        width = self.shape[0]
+        length = self.shape[1]
+        #print (width,length)
+        return box(0,0,width,length)
+
 
 numberOfChillers = 0
 numberOfBoilers = 0
 shapeOfRoom = 0
-def howManyUnits():
-    global numberOfChillers, numberOfBoilers, shapeOfRoom
+lengthWidthChiller = 0
+lengthWidthBoiler = 0
+def howMany():
+    global numberOfChillers, numberOfBoilers, shapeOfRoom, lengthWidthBoiler, lengthWidthChiller
     shapeOfRoom = literal_eval(input("Enter the coordinates of the room [(0,0),(1,1)...]: "))
     numberOfChillers = input("Enter the number of chillers: ")
-    numberOfBoilers = input("Enter the number of boilers: ")
+    lengthWidthChiller = literal_eval(input("Enter the width and length of chiller [width,length]: "))
+    #numberOfBoilers = input("Enter the number of boilers: ")
+    #lengthWidthBoiler = literal_eval(input("Enter the width and length of boiler [width,length]: "))
 
+def doesContain():
+    pass
 
 
 
 
 def main():
-    howManyUnits()
+    howMany()
     room = Room(shapeOfRoom)
-    room.area()
+    chiller = Unit(1,lengthWidthChiller).setBox()
+    print(chiller.length)
 
     
 if __name__ == '__main__':
