@@ -5,6 +5,7 @@
 from shapely.geometry import Polygon
 from shapely.geometry import MultiPolygon
 from shapely.geometry import box
+from shapely.affinity import translate
 from ast import literal_eval
 
 class Room:
@@ -40,7 +41,7 @@ def howMany():
     #lengthWidthBoiler = literal_eval(input("Enter the width and length of boiler [width,length]: "))
 
 def doesContain(room, unit):
-    return room.contains(unit)
+    room.contains(unit)
 
 
 
@@ -51,9 +52,13 @@ def main():
     howMany()
     room = Room(shapeOfRoom).setSurface()
     chiller = Unit(1,lengthWidthChiller).setBox()
-    print (room.area, chiller.area)
-    if (doesContain(room, chiller)): print('True')
-    else: print ('False')
+    print (list(room.exterior.coords))
+    
+    newRoom = translate(room,0,1)
+    print (list(newRoom.exterior.coords))
+    
+    #if (doesContain(room, chiller)): print('True')
+    #else: print ('False')
 
 
     
