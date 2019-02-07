@@ -45,7 +45,7 @@ class Unit:
         if (num == 1): return self.listBounds
         check = list(it.combinations(self.listBounds,num))
         if (check == []): return "Too many units for this area"
-        print (check)
+        return check
         
 
 
@@ -59,15 +59,17 @@ def howMany():
     shapeOfRoom = literal_eval(input("Enter the coordinates of the room [(0,0),(1,1)...]: "))
     numberOfChillers = literal_eval(input("Enter the number of chillers: "))
     lengthWidthChiller = literal_eval(input("Enter the width and length of chiller [width,length]: "))
-    #numberOfBoilers = input("Enter the number of boilers: ")
-    #lengthWidthBoiler = literal_eval(input("Enter the width and length of boiler [width,length]: "))
+    numberOfBoilers = literal_eval(input("Enter the number of boilers: "))
+    lengthWidthBoiler = literal_eval(input("Enter the width and length of boiler [width,length]: "))
 
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 def main():
     howMany()
     room1 = Room(shapeOfRoom)
     chiller = Unit(numberOfChillers,lengthWidthChiller)
-    chiller.multiple(room1.polygon)
+    print(chiller.multiple(room1.polygon))
+    boiler = Unit(numberOfBoilers, lengthWidthBoiler)
+    print(boiler.multiple(room1.polygon))
     #print (chiller.possiblePlacements(room1.polygon))
     # print (list(chiller.box.exterior.coords))
     # print (list(room1.polygon.exterior.coords))
