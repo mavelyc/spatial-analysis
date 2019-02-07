@@ -24,9 +24,20 @@ class Unit:
         self.bounds = self.box.bounds
 
     def possiblePlacements(self, room):
-        if (room.contains(self.box)): print ("True")
-        else: print ("False")
-
+        x_bound = room.bounds[2]
+        y_bound = room.bounds[3]
+        x_trans = 0
+        new_geom = self.box
+        self.listBounds = []
+        while (new_geom.bounds[2]<=x_bound):
+            while (new_geom.bounds[3]<=y_bound):
+                if (room.contains(new_geom)):
+                    self.listBounds.append(new_geom.bounds)
+                new_geom = translate(new_geom,0,1)
+            x_trans+=1
+            new_geom = self.box
+            new_geom = translate(new_geom,x_trans)
+        return self.listBounds
 
 
 numberOfChillers = 0
@@ -50,7 +61,7 @@ def main():
     howMany()
     room1 = Room(shapeOfRoom)
     chiller = Unit(1,lengthWidthChiller)
-    chiller.possiblePlacements(room1.polygon)
+    print (chiller.possiblePlacements(room1.polygon))
     # print (list(chiller.box.exterior.coords))
     # print (list(room1.polygon.exterior.coords))
     # print (chiller.box.area)
@@ -59,8 +70,8 @@ def main():
     # newRoom = translate(room,0,1)
     # print (list(newRoom.exterior.coords))
     
-    if (room1.polygon.contains(chiller.box)): print('True')
-    else: print ('False')
+    # if (room1.polygon.contains(chiller.box)): print('True')
+    # else: print ('False')
 
 
     
