@@ -7,6 +7,7 @@ from shapely.geometry import MultiPolygon
 from shapely.geometry import box
 from shapely.affinity import translate
 from ast import literal_eval
+import itertools as it
 
 class Room:
     def __init__(self, shape):
@@ -37,7 +38,15 @@ class Unit:
             x_trans+=1
             new_geom = self.box
             new_geom = translate(new_geom,x_trans)
-        return self.listBounds
+
+    def multiple(self, room):
+        self.possiblePlacements(room)
+        num = self.number
+        if (num == 1): return self.listBounds
+        check = list(it.combinations(self.listBounds,num))
+        if (check == []): return "Too many units for this area"
+        print (check)
+        
 
 
 numberOfChillers = 0
@@ -48,20 +57,18 @@ lengthWidthBoiler = 0
 def howMany():
     global numberOfChillers, numberOfBoilers, shapeOfRoom, lengthWidthBoiler, lengthWidthChiller
     shapeOfRoom = literal_eval(input("Enter the coordinates of the room [(0,0),(1,1)...]: "))
-    numberOfChillers = input("Enter the number of chillers: ")
+    numberOfChillers = literal_eval(input("Enter the number of chillers: "))
     lengthWidthChiller = literal_eval(input("Enter the width and length of chiller [width,length]: "))
     #numberOfBoilers = input("Enter the number of boilers: ")
     #lengthWidthBoiler = literal_eval(input("Enter the width and length of boiler [width,length]: "))
 
-
-
-
-#---------------------------------------------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 def main():
     howMany()
     room1 = Room(shapeOfRoom)
-    chiller = Unit(1,lengthWidthChiller)
-    print (chiller.possiblePlacements(room1.polygon))
+    chiller = Unit(numberOfChillers,lengthWidthChiller)
+    chiller.multiple(room1.polygon)
+    #print (chiller.possiblePlacements(room1.polygon))
     # print (list(chiller.box.exterior.coords))
     # print (list(room1.polygon.exterior.coords))
     # print (chiller.box.area)
@@ -72,6 +79,16 @@ def main():
     
     # if (room1.polygon.contains(chiller.box)): print('True')
     # else: print ('False')
+
+
+
+
+
+
+
+
+
+
 
 
     
