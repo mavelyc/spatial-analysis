@@ -9,6 +9,12 @@ from shapely.affinity import translate
 from ast import literal_eval
 import itertools as it
 
+numberOfChillers = 0
+numberOfBoilers = 0
+shapeOfRoom = 0
+lengthWidthChiller = 0
+lengthWidthBoiler = 0
+
 class Room:
     def __init__(self, shape):
         self.shape = shape
@@ -23,7 +29,7 @@ class Unit:
         length = self.shape[1]
         self.box = box(0,0,width,length,ccw=False)
         self.bounds = self.box.bounds
-
+        
     def possiblePlacements(self, room):
         x_bound = room.bounds[2]
         y_bound = room.bounds[3]
@@ -45,15 +51,10 @@ class Unit:
         if (num == 1): return self.listBounds
         check = list(it.combinations(self.listBounds,num))
         if (check == []): return "Too many units for this area"
-        return check
+        for i in check:
+            print (i)
         
-
-
-numberOfChillers = 0
-numberOfBoilers = 0
-shapeOfRoom = 0
-lengthWidthChiller = 0
-lengthWidthBoiler = 0
+        
 def howMany():
     global numberOfChillers, numberOfBoilers, shapeOfRoom, lengthWidthBoiler, lengthWidthChiller
     shapeOfRoom = literal_eval(input("Enter the coordinates of the room [(0,0),(1,1)...]: "))
@@ -62,23 +63,50 @@ def howMany():
     numberOfBoilers = literal_eval(input("Enter the number of boilers: "))
     lengthWidthBoiler = literal_eval(input("Enter the width and length of boiler [width,length]: "))
 
+def finalTuple(list1, list2):
+    return list(it.product(list1,list2))
+
+def finalConfigurations(finalList):
+    final = []
+    flag = 0
+
+    #SPECIAL Needed CASE IF NUMBER OF BOILERS AND CHILLERS ARE 1 EACH
+
+    for tup in finalList:
+        #print (tup)
+        for first in tup[0]:
+            print (first)
+            box1 = box(*first)
+            for second in tup[1]:
+                print (second)
+                box2 = box(*second)
+                bool_check = box1.intersects(box2)
+    #             if (bool_check == True): 
+    #                 print("True")
+    #                 flag = 1
+    #         if (flag==1): break
+    #     if (flag==0): final.append(tup)
+    #     flag = 0
+    # if (final == []): print ("No possible combination of units will fit in room")
+    # return final
+
+
+
+
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 def main():
     howMany()
     room1 = Room(shapeOfRoom)
     chiller = Unit(numberOfChillers,lengthWidthChiller)
-    print(chiller.multiple(room1.polygon))
+    listaz1 = chiller.multiple(room1.polygon)
+    print(listaz1)
     boiler = Unit(numberOfBoilers, lengthWidthBoiler)
-    print(boiler.multiple(room1.polygon))
-    #print (chiller.possiblePlacements(room1.polygon))
+    listaz2 = boiler.multiple(room1.polygon)
+    #print(listaz2)
+    #print(finalConfigurations(finalTuple(listaz1,listaz2)))
     # print (list(chiller.box.exterior.coords))
     # print (list(room1.polygon.exterior.coords))
-    # print (chiller.box.area)
-    # print (room1.polygon.area)
 
-    # newRoom = translate(room,0,1)
-    # print (list(newRoom.exterior.coords))
-    
     # if (room1.polygon.contains(chiller.box)): print('True')
     # else: print ('False')
 
