@@ -11,21 +11,17 @@ from ast import literal_eval
 class Room:
     def __init__(self, shape):
         self.shape = shape
-
-    def setSurface(self):
-        return Polygon(self.shape)
+        self.polygon = Polygon(self.shape)
+        self.bounds = self.polygon.bounds
 
 class Unit:
     def __init__(self, number, shape):
         self.number = number
         self.shape = shape
-    
-    def setBox(self):
         width = self.shape[0]
         length = self.shape[1]
-        #print (width,length)
-        return box(0,0,width,length)
-
+        self.box = box(0,0,width,length)
+        self.bounds = self.box.bounds
 
 numberOfChillers = 0
 numberOfBoilers = 0
@@ -50,12 +46,12 @@ def doesContain(room, unit):
 #---------------------------------------------------------------------------------------------------------------------------
 def main():
     howMany()
-    room = Room(shapeOfRoom).setSurface()
-    chiller = Unit(1,lengthWidthChiller).setBox()
-    print (list(room.exterior.coords))
+    room = Room(shapeOfRoom)
+    chiller = Unit(1,lengthWidthChiller)
+    print (chiller.bounds)
     
-    newRoom = translate(room,0,1)
-    print (list(newRoom.exterior.coords))
+    # newRoom = translate(room,0,1)
+    # print (list(newRoom.exterior.coords))
     
     #if (doesContain(room, chiller)): print('True')
     #else: print ('False')
