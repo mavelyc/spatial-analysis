@@ -20,8 +20,14 @@ class Unit:
         self.shape = shape
         width = self.shape[0]
         length = self.shape[1]
-        self.box = box(0,0,width,length)
+        self.box = box(0,0,width,length,ccw=False)
         self.bounds = self.box.bounds
+
+    def possiblePlacements(self, room):
+        if (room.contains(self.box)): print ("True")
+        else: print ("False")
+
+
 
 numberOfChillers = 0
 numberOfBoilers = 0
@@ -36,25 +42,25 @@ def howMany():
     #numberOfBoilers = input("Enter the number of boilers: ")
     #lengthWidthBoiler = literal_eval(input("Enter the width and length of boiler [width,length]: "))
 
-def doesContain(room, unit):
-    room.contains(unit)
-
-
 
 
 
 #---------------------------------------------------------------------------------------------------------------------------
 def main():
     howMany()
-    room = Room(shapeOfRoom)
+    room1 = Room(shapeOfRoom)
     chiller = Unit(1,lengthWidthChiller)
-    print (chiller.bounds)
-    
+    chiller.possiblePlacements(room1.polygon)
+    # print (list(chiller.box.exterior.coords))
+    # print (list(room1.polygon.exterior.coords))
+    # print (chiller.box.area)
+    # print (room1.polygon.area)
+
     # newRoom = translate(room,0,1)
     # print (list(newRoom.exterior.coords))
     
-    #if (doesContain(room, chiller)): print('True')
-    #else: print ('False')
+    if (room1.polygon.contains(chiller.box)): print('True')
+    else: print ('False')
 
 
     
