@@ -115,7 +115,7 @@ class Unit:
             flag = 0
             i=0     
         self.multiList = tmp
-        print (tmp)
+        print (self.multiList)
         
     
 
