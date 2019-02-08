@@ -68,26 +68,53 @@ class Unit:
         self.multiList = check
         return self.multiList
 
+    def boundaryCheck(self, val1, val2):
+        #print (val1,val2)
+        min_y_2 = val2[1]
+        max_y_2 = val2[3]
+        min_y_1 = val1[1]
+        max_y_1 = val1[3]
+        
+        min_x_2 = val2[0]
+        max_x_2 = val2[2]
+        min_x_1 = val1[0]
+        max_x_1 = val1[2]
+
+        if (min_y_2 >= max_y_1 or min_y_1 >= max_y_2):
+            #print ("True")
+            return True
+        elif (min_x_2 >= max_x_1 or min_x_1 >= max_x_2):
+            #print ("True")
+            return True
+
+
     def clearOverlaps(self):
-        if (self.number == 1): return
         i=0
         flag = 0
         tmp = []
+        if (self.number == 1): return
         for tup in self.multiList:
+            # print (tup)
+            # print (flag)
             while (i<self.number):
                 val = tup[i]
                 # print(val)
                 for elem in tup:
-                    if (elem == val): continue
+                    if (elem == val): 
+                        continue
                     else:
-                        box1 = box(*val)
-                        box2 = box(*elem)
-                        bool_check = box1.intersects(box2)
-                        if (bool_check == True): flag = 1
+                        bool_check = self.boundaryCheck(val,elem)
+                        # box1 = box(*val)
+                        # box2 = box(*elem)
+                        # bool_check = box1.intersects(box2)
+                        if (bool_check == True): 
+                            flag = 1                    
                 i+=1
-            if (flag == 0): tmp.append(tup)
+            if (flag == 1): tmp.append(tup)
+            bool_check = False
             flag = 0
             i=0     
+        self.multiList = tmp
         print (tmp)
         
     
