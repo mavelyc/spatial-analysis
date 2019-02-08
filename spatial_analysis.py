@@ -15,6 +15,19 @@ shapeOfRoom = 0
 lengthWidthChiller = 0
 lengthWidthBoiler = 0
 
+        
+def howMany():
+    global numberOfChillers, numberOfBoilers, shapeOfRoom, lengthWidthBoiler, lengthWidthChiller
+    shapeOfRoom = literal_eval(input("Enter the coordinates of the room [(0,0),(1,1)...]: "))
+    numberOfChillers = literal_eval(input("Enter the number of chillers: "))
+    lengthWidthChiller = literal_eval(input("Enter the width and length of chiller [width,length]: "))
+    numberOfBoilers = literal_eval(input("Enter the number of boilers: "))
+    lengthWidthBoiler = literal_eval(input("Enter the width and length of boiler [width,length]: "))
+
+def finalTuple(list1, list2):
+    return list(it.product(list1,list2))
+
+
 class Room:
     def __init__(self, shape):
         self.shape = shape
@@ -44,6 +57,7 @@ class Unit:
             x_trans+=1
             new_geom = self.box
             new_geom = translate(new_geom,x_trans)
+        return self.listBounds
 
     def multiple(self, room):
         self.possiblePlacements(room)
@@ -51,44 +65,56 @@ class Unit:
         if (num == 1): return self.listBounds
         check = list(it.combinations(self.listBounds,num))
         if (check == []): return "Too many units for this area"
-        for i in check:
-            print (i)
+        self.multiList = check
+        return self.multiList
+
+    def clearOverlaps(self):
+        if (self.number == 1): return
+        i=0
+        flag = 0
+        tmp = []
+        for tup in self.multiList:
+            while (i<self.number):
+                val = tup[i]
+                # print(val)
+                for elem in tup:
+                    if (elem == val): continue
+                    else:
+                        box1 = box(*val)
+                        box2 = box(*elem)
+                        bool_check = box1.intersects(box2)
+                        if (bool_check == True): flag = 1
+                i+=1
+            if (flag == 0): tmp.append(tup)
+            flag = 0
+            i=0     
+        print (tmp)
         
-        
-def howMany():
-    global numberOfChillers, numberOfBoilers, shapeOfRoom, lengthWidthBoiler, lengthWidthChiller
-    shapeOfRoom = literal_eval(input("Enter the coordinates of the room [(0,0),(1,1)...]: "))
-    numberOfChillers = literal_eval(input("Enter the number of chillers: "))
-    lengthWidthChiller = literal_eval(input("Enter the width and length of chiller [width,length]: "))
-    numberOfBoilers = literal_eval(input("Enter the number of boilers: "))
-    lengthWidthBoiler = literal_eval(input("Enter the width and length of boiler [width,length]: "))
+    
 
-def finalTuple(list1, list2):
-    return list(it.product(list1,list2))
+# def finalConfigurations(finalList):
+#     final = []
+#     flag = 0
 
-def finalConfigurations(finalList):
-    final = []
-    flag = 0
+#     #SPECIAL Needed CASE IF NUMBER OF BOILERS AND CHILLERS ARE 1 EACH
 
-    #SPECIAL Needed CASE IF NUMBER OF BOILERS AND CHILLERS ARE 1 EACH
-
-    for tup in finalList:
-        #print (tup)
-        for first in tup[0]:
-            print (first)
-            box1 = box(*first)
-            for second in tup[1]:
-                print (second)
-                box2 = box(*second)
-                bool_check = box1.intersects(box2)
-    #             if (bool_check == True): 
-    #                 print("True")
-    #                 flag = 1
-    #         if (flag==1): break
-    #     if (flag==0): final.append(tup)
-    #     flag = 0
-    # if (final == []): print ("No possible combination of units will fit in room")
-    # return final
+#     for tup in finalList:
+#         #print (tup)
+#         for first in tup[0]:
+#             print (first)
+#             box1 = box(*first)
+#             for second in tup[1]:
+#                 print (second)
+#                 box2 = box(*second)
+#                 bool_check = box1.intersects(box2)
+#     #             if (bool_check == True): 
+#     #                 print("True")
+#     #                 flag = 1
+#     #         if (flag==1): break
+#     #     if (flag==0): final.append(tup)
+#     #     flag = 0
+#     # if (final == []): print ("No possible combination of units will fit in room")
+#     # return final
 
 
 
@@ -98,10 +124,14 @@ def main():
     howMany()
     room1 = Room(shapeOfRoom)
     chiller = Unit(numberOfChillers,lengthWidthChiller)
-    listaz1 = chiller.multiple(room1.polygon)
-    print(listaz1)
     boiler = Unit(numberOfBoilers, lengthWidthBoiler)
-    listaz2 = boiler.multiple(room1.polygon)
+    listaz1 = chiller.possiblePlacements(room1.polygon)
+    print(listaz1)
+    listaz2 = chiller.multiple(room1.polygon)
+    print(listaz2)
+    print("---------------------------------------------")
+    chiller.clearOverlaps()
+    #listaz2 = boiler.multiple(room1.polygon)
     #print(listaz2)
     #print(finalConfigurations(finalTuple(listaz1,listaz2)))
     # print (list(chiller.box.exterior.coords))
