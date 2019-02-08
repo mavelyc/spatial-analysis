@@ -69,7 +69,7 @@ class Unit:
         return self.multiList
 
     def boundaryCheck(self, val1, val2):
-        #print (val1,val2)
+        print (val1,val2)
         min_y_2 = val2[1]
         max_y_2 = val2[3]
         min_y_1 = val1[1]
@@ -107,10 +107,10 @@ class Unit:
                         # box1 = box(*val)
                         # box2 = box(*elem)
                         # bool_check = box1.intersects(box2)
-                        if (bool_check == True): 
+                        if (bool_check != True): 
                             flag = 1                    
                 i+=1
-            if (flag == 1): tmp.append(tup)
+            if (flag == 0): tmp.append(tup)
             bool_check = False
             flag = 0
             i=0     
