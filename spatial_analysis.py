@@ -104,9 +104,6 @@ class Unit:
                         continue
                     else:
                         bool_check = self.boundaryCheck(val,elem)
-                        # box1 = box(*val)
-                        # box2 = box(*elem)
-                        # bool_check = box1.intersects(box2)
                         if (bool_check != True): 
                             flag = 1                    
                 i+=1
@@ -155,8 +152,6 @@ def main():
     listaz1 = chiller.possiblePlacements(room1.polygon)
     print(listaz1)
     listaz2 = chiller.multiple(room1.polygon)
-    print(listaz2)
-    print("---------------------------------------------")
     chiller.clearOverlaps()
     #listaz2 = boiler.multiple(room1.polygon)
     #print(listaz2)
@@ -169,16 +164,6 @@ def main():
 
 
 
-
-
-
-
-
-
-
-
-
-    
 if __name__ == '__main__':
     main()
 
