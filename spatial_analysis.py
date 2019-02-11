@@ -173,12 +173,23 @@ def showAxis():
 
 def finalTupToCoords(coordinates):
     final = []
+    print (coordinates)
     for i in coordinates:
-        tmp = []
-        for each in i:
-            tmp.append(list(each))
-        final.append(tmp)
-    print (final)
+        tmp2 = []
+        for bounds in i:
+            tmp=[]
+            tup = (bounds[0],bounds[1])
+            width = bounds[2]-bounds[0]
+            length = bounds[3]-bounds[1]
+            tmp.append(tup)
+            tmp.extend([width,length])
+            tmp2.append(tuple(tmp))
+        final.append(tmp2)
+    return final
+
+def display(finalCoords):
+    pass
+        
 
 
 
@@ -201,10 +212,13 @@ def main():
     initAxis()
     room = drawRoom(roomTupToList(shapeOfRoom))
     plt.gca().add_patch(room)
-    points2 = [[0,0],[1,1],[1,0]]
-    polygon2 = plt.Polygon(points2, closed=True, color=colors[2])
+    # points2 = [[0,0],[1,1],[1,0]]
+    # polygon2 = plt.Polygon(points2, closed=True, color=colors[2])
+    # plt.gca().add_patch(polygon2)
+    test = finalTupToCoords(finalConfig)
+    print(test[0][0][1])
+    polygon2 = plt.Rectangle(*test[0][1],fc='r')
     plt.gca().add_patch(polygon2)
-
 
     showAxis()
 
