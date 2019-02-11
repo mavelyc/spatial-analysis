@@ -1,7 +1,3 @@
-# import matplotlib.pyplot as plt
-# plt.plot([1,2,3],[5,7,4])
-# plt.show()
-
 from shapely.geometry import Polygon
 from shapely.geometry import MultiPolygon
 from shapely.geometry import box
@@ -196,40 +192,40 @@ def display(finalCoords):
 
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 def main():
-    howMany()
-    room1 = Room(shapeOfRoom)
-    chiller = Unit(numberOfChillers,lengthWidthChiller)
-    boiler = Unit(numberOfBoilers, lengthWidthBoiler)
-    chiller.multiple(room1.polygon)
-    # chiller.clearOverlaps()
-    boiler.multiple(room1.polygon)
-    # boiler.clearOverlaps()
-    finalConfig = finalConfigurations(chiller.clearOverlaps(),boiler.clearOverlaps())
-    finalTupToCoords(finalConfig)
+    try:
+        howMany()
+        room1 = Room(shapeOfRoom)
+        chiller = Unit(numberOfChillers,lengthWidthChiller)
+        boiler = Unit(numberOfBoilers, lengthWidthBoiler)
+        chiller.multiple(room1.polygon)
+        boiler.multiple(room1.polygon)
+        finalConfig = finalConfigurations(chiller.clearOverlaps(),boiler.clearOverlaps())
+        finalTupToCoords(finalConfig)
 
 
-    initAxis()
-    room = drawRoom(roomTupToList(shapeOfRoom))
-    plt.gca().add_patch(room)
-    finalList = finalTupToCoords(finalConfig)
+        initAxis()
 
-
-    while(1):
-        colors = ["g","r","c","m","y","k","w"]
         r = 0
-        r=r%(len(finalList)-1)
-        j= 0
-        j=j%6
-        for i in range(4):
-            j+=1
-            polygon2 = plt.Rectangle(*finalList[0][i],fc=colors[j],edgecolor="b")
-            plt.gca().add_patch(polygon2)
+        while(1):
+            room = drawRoom(roomTupToList(shapeOfRoom))
+            plt.gca().add_patch(room)
+            finalList = finalTupToCoords(finalConfig)
+            colors = ["g","r","c","m","y","k","w"]
+            r=r%(len(finalList))
+            j= 0
+            j=j%6
+            for i in range(4):
+                j+=1
+                polygon2 = plt.Rectangle(*finalList[r][i],fc=colors[j],edgecolor="b")
+                plt.gca().add_patch(polygon2)
 
-        showAxis()
-        command = input("Press Enter to view more options or press X/x to close: ")
-        if (command == "X" or command == "x"): break
-        r+=1
+            showAxis()
+            command = input("Press Enter to view more options or press X/x to close: ")
+            if (command == "X" or command == "x"): break
+            r+=1
 
+    except:
+        print ("Not possible")
 
 
 if __name__ == '__main__':
