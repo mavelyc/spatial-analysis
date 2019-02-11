@@ -173,7 +173,7 @@ def showAxis():
 
 def finalTupToCoords(coordinates):
     final = []
-    print (coordinates)
+    #print (coordinates)
     for i in coordinates:
         tmp2 = []
         for bounds in i:
@@ -188,7 +188,8 @@ def finalTupToCoords(coordinates):
     return final
 
 def display(finalCoords):
-    pass
+    colors = ["g","r","c","m","y","k","w"]
+    
         
 
 
@@ -205,22 +206,29 @@ def main():
     # boiler.clearOverlaps()
     finalConfig = finalConfigurations(chiller.clearOverlaps(),boiler.clearOverlaps())
     finalTupToCoords(finalConfig)
-    
 
-    colors = ["g","r","c","m","y","k","w"]
 
     initAxis()
     room = drawRoom(roomTupToList(shapeOfRoom))
     plt.gca().add_patch(room)
-    # points2 = [[0,0],[1,1],[1,0]]
-    # polygon2 = plt.Polygon(points2, closed=True, color=colors[2])
-    # plt.gca().add_patch(polygon2)
-    test = finalTupToCoords(finalConfig)
-    print(test[0][0][1])
-    polygon2 = plt.Rectangle(*test[0][1],fc='r')
-    plt.gca().add_patch(polygon2)
+    finalList = finalTupToCoords(finalConfig)
 
-    showAxis()
+
+    while(1):
+        colors = ["g","r","c","m","y","k","w"]
+        r = 0
+        r=r%(len(finalList)-1)
+        j= 0
+        j=j%6
+        for i in range(4):
+            j+=1
+            polygon2 = plt.Rectangle(*finalList[0][i],fc=colors[j],edgecolor="b")
+            plt.gca().add_patch(polygon2)
+
+        showAxis()
+        command = input("Press Enter to view more options or press X/x to close: ")
+        if (command == "X" or command == "x"): break
+        r+=1
 
 
 
