@@ -11,6 +11,10 @@ numberOfBoilers = 0
 shapeOfRoom = 0
 lengthWidthChiller = 0
 lengthWidthBoiler = 0
+numberOfAHUs = 0
+lengthWidthAHU =0 
+numberOfPumps = 0
+lengthWidthPump =0 
 
 
 class Room:
@@ -49,7 +53,7 @@ class Unit:
         num = self.number
         if (num == 1): return self.listBounds
         check = list(it.combinations(self.listBounds,num))
-        if (check == []): return "Too many units for this area"
+        if (check == []): print ("Too many units for this area")
         self.multiList = check
 
     def boundaryCheck(self, val1, val2):
@@ -104,9 +108,17 @@ def howMany():
     global numberOfChillers, numberOfBoilers, shapeOfRoom, lengthWidthBoiler, lengthWidthChiller
     shapeOfRoom = literal_eval(input("Enter the coordinates of the room [(0,0),(1,1)...]: "))
     numberOfChillers = literal_eval(input("Enter the number of chillers: "))
-    lengthWidthChiller = literal_eval(input("Enter the width and length of chiller [width,length]: "))
+    if numberOfChillers>0:
+        lengthWidthChiller = literal_eval(input("Enter the width and length of chiller [width,length]: "))
     numberOfBoilers = literal_eval(input("Enter the number of boilers: "))
-    lengthWidthBoiler = literal_eval(input("Enter the width and length of boiler [width,length]: "))
+    if numberOfBoilers>0:
+        lengthWidthBoiler = literal_eval(input("Enter the width and length of boiler [width,length]: "))
+    numberOfAHUs = literal_eval(input("Enter the number of boilers: "))
+    if numberOfAHUs>0:
+        lengthWidthAHU = literal_eval(input("Enter the width and length of boiler [width,length]: "))
+    numberOfPumps = literal_eval(input("Enter the number of boilers: "))
+    if numberOfPumps>0:
+        lengthWidthPump = literal_eval(input("Enter the width and length of boiler [width,length]: "))
 
 
 def boundsCheck(val1, val2):
@@ -195,10 +207,18 @@ def main():
     try:
         howMany()
         room1 = Room(shapeOfRoom)
-        chiller = Unit(numberOfChillers,lengthWidthChiller)
-        boiler = Unit(numberOfBoilers, lengthWidthBoiler)
-        chiller.multiple(room1.polygon)
-        boiler.multiple(room1.polygon)
+        if (numberOfChillers>0):
+            chiller = Unit(numberOfChillers,lengthWidthChiller)
+            chiller.multiple(room1.polygon)
+        if (numberOfBoilers>0):
+            boiler = Unit(numberOfBoilers, lengthWidthBoiler)
+            boiler.multiple(room1.polygon)
+        if (numberOfAHUs>0):
+            AHU = Unit(numberOfAHUs, lengthWidthAHU)
+            AHU.multiple(room1.polygon)
+        if (numberOfPumps>0):
+            pumps = Unit(numberOfPumps, lengthWidthPump)
+            pumps.multiple(room1.polygon)
         finalConfig = finalConfigurations(chiller.clearOverlaps(),boiler.clearOverlaps())
         finalTupToCoords(finalConfig)
 
