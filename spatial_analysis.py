@@ -80,7 +80,7 @@ class Unit:
         i=0
         flag = 0
         tmp = []
-        if (self.number == 1): return
+        if (self.number == 1): return self.multiList
         for tup in self.multiList:
             # print (tup)
             # print (flag)
@@ -105,7 +105,7 @@ class Unit:
 
 
 def howMany():
-    global numberOfChillers, numberOfBoilers, shapeOfRoom, lengthWidthBoiler, lengthWidthChiller
+    global numberOfChillers, numberOfBoilers, shapeOfRoom, lengthWidthBoiler, lengthWidthChiller, numberOfAHUs, lengthWidthAHU, numberOfPumps, lengthWidthPump
     shapeOfRoom = literal_eval(input("Enter the coordinates of the room [(0,0),(1,1)...]: "))
     numberOfChillers = literal_eval(input("Enter the number of chillers: "))
     if numberOfChillers>0:
@@ -113,12 +113,12 @@ def howMany():
     numberOfBoilers = literal_eval(input("Enter the number of boilers: "))
     if numberOfBoilers>0:
         lengthWidthBoiler = literal_eval(input("Enter the width and length of boiler [width,length]: "))
-    numberOfAHUs = literal_eval(input("Enter the number of boilers: "))
+    numberOfAHUs = literal_eval(input("Enter the number of AHUs: "))
     if numberOfAHUs>0:
-        lengthWidthAHU = literal_eval(input("Enter the width and length of boiler [width,length]: "))
-    numberOfPumps = literal_eval(input("Enter the number of boilers: "))
+        lengthWidthAHU = literal_eval(input("Enter the width and length of AHU [width,length]: "))
+    numberOfPumps = literal_eval(input("Enter the number of pumps: "))
     if numberOfPumps>0:
-        lengthWidthPump = literal_eval(input("Enter the width and length of boiler [width,length]: "))
+        lengthWidthPump = literal_eval(input("Enter the width and length of pump [width,length]: "))
 
 
 def boundsCheck(val1, val2):
@@ -142,13 +142,20 @@ def boundsCheck(val1, val2):
         
     
 def finalConfigurations(tup1, tup2):
+    if (tup1 == 0):
+        return tup2
+    if (tup2 == 0): 
+        return tup1
     final = []
     flag = 0
 
     for i in tup1:
+        print("test")
         for test in tup2:
+            print ("test1")
             for tup in i:
                 for check in test:
+                    print ("test3")
                     #print (tup,check)
                     if(boundsCheck(tup,check)!=True): flag = 1
                     #print (flag)
@@ -204,48 +211,62 @@ def display(finalCoords):
 
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 def main():
-    try:
-        howMany()
-        room1 = Room(shapeOfRoom)
-        if (numberOfChillers>0):
-            chiller = Unit(numberOfChillers,lengthWidthChiller)
-            chiller.multiple(room1.polygon)
-        if (numberOfBoilers>0):
-            boiler = Unit(numberOfBoilers, lengthWidthBoiler)
-            boiler.multiple(room1.polygon)
-        if (numberOfAHUs>0):
-            AHU = Unit(numberOfAHUs, lengthWidthAHU)
-            AHU.multiple(room1.polygon)
-        if (numberOfPumps>0):
-            pumps = Unit(numberOfPumps, lengthWidthPump)
-            pumps.multiple(room1.polygon)
-        finalConfig = finalConfigurations(chiller.clearOverlaps(),boiler.clearOverlaps())
-        finalTupToCoords(finalConfig)
+    #try:
+    howMany()
+    room1 = Room(shapeOfRoom)
 
+    chiller_val = 0
+    boiler_val = 0
+    AHU_val = 0
+    pump_val = 0
 
-        initAxis()
+    if (numberOfChillers>0):
+        chiller = Unit(numberOfChillers,lengthWidthChiller)
+        chiller.multiple(room1.polygon)
+        chiller_val = chiller.clearOverlaps()
+    if (numberOfBoilers>0):
+        boiler = Unit(numberOfBoilers, lengthWidthBoiler)
+        boiler.multiple(room1.polygon)
+        boiler_val = boiler.clearOverlaps()
+    if (numberOfAHUs>0):
+        AHU = Unit(numberOfAHUs, lengthWidthAHU)
+        AHU.multiple(room1.polygon)
+        AHU_val = AHU.clearOverlaps()
+    if (numberOfPumps>0):
+        pump = Unit(numberOfPumps, lengthWidthPump)
+        pump.multiple(room1.polygon)
+        pump_val = pump.clearOverlaps()
 
-        r = 0
-        while(1):
-            room = drawRoom(roomTupToList(shapeOfRoom))
-            plt.gca().add_patch(room)
-            finalList = finalTupToCoords(finalConfig)
-            colors = ["g","r","c","m","y","k","w"]
-            r=r%(len(finalList))
-            j= 0
-            j=j%6
-            for i in range(4):
-                j+=1
-                polygon2 = plt.Rectangle(*finalList[r][i],fc=colors[j],edgecolor="b")
-                plt.gca().add_patch(polygon2)
+    finalConfig1 = finalConfigurations(chiller_val,boiler_val)
+    finalConfig2 = finalConfigurations(AHU_val, pump_val)
+    finalConfig = finalConfigurations(finalConfig1,finalConfig2)
+    #finalTupToCoords(finalConfig)
+    finalList = finalTupToCoords(finalConfig)
+    print(finalConfig)
 
-            showAxis()
-            command = input("Press Enter to view more options or press X/x to close: ")
-            if (command == "X" or command == "x"): break
-            r+=1
+    initAxis()
 
-    except:
-        print ("Not possible")
+    r = 0
+    while(1):
+        room = drawRoom(roomTupToList(shapeOfRoom))
+        plt.gca().add_patch(room)
+        # finalList = finalTupToCoords(finalConfig2)
+        colors = ["g","r","c","m","y","k","w"]
+        r=r%(len(finalList))
+        j= 0
+        j=j%6
+        for i in range(3):
+            j+=1
+            polygon2 = plt.Rectangle(*finalList[r][i],fc=colors[j],edgecolor="b")
+            plt.gca().add_patch(polygon2)
+
+        showAxis()
+        command = input("Press Enter to view more options or press X/x to close: ")
+        if (command == "X" or command == "x"): break
+        r+=1
+
+    #except:
+        # print ("Not possible")
 
 
 if __name__ == '__main__':
