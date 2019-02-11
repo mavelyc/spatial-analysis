@@ -66,10 +66,9 @@ class Unit:
         check = list(it.combinations(self.listBounds,num))
         if (check == []): return "Too many units for this area"
         self.multiList = check
-        return self.multiList
 
     def boundaryCheck(self, val1, val2):
-        print (val1,val2)
+        # print (val1,val2)
         min_y_2 = val2[1]
         max_y_2 = val2[3]
         min_y_1 = val1[1]
@@ -112,33 +111,48 @@ class Unit:
             flag = 0
             i=0     
         self.multiList = tmp
-        print (self.multiList)
+        return self.multiList
+        #print (self.multiList)
+
+
+def boundsCheck(val1, val2):
+        # print (val1,val2)
+        min_y_2 = val2[1]
+        max_y_2 = val2[3]
+        min_y_1 = val1[1]
+        max_y_1 = val1[3]
+        
+        min_x_2 = val2[0]
+        max_x_2 = val2[2]
+        min_x_1 = val1[0]
+        max_x_1 = val1[2]
+
+        if (min_y_2 >= max_y_1 or min_y_1 >= max_y_2):
+            #print ("True")
+            return True
+        elif (min_x_2 >= max_x_1 or min_x_1 >= max_x_2):
+            #print ("True")
+            return True
         
     
+def finalConfigurations(tup1, tup2):
+    final = []
+    flag = 0
 
-# def finalConfigurations(finalList):
-#     final = []
-#     flag = 0
+    for i in tup1:
+        for test in tup2:
+            for tup in i:
+                for check in test:
+                    #print (tup,check)
+                    if(boundsCheck(tup,check)!=True): flag = 1
+                    #print (flag)
+                #print (flag)
+            if (flag==0):
+                final.append(i+test)
+            flag = 0
 
-#     #SPECIAL Needed CASE IF NUMBER OF BOILERS AND CHILLERS ARE 1 EACH
+    print (final)    
 
-#     for tup in finalList:
-#         #print (tup)
-#         for first in tup[0]:
-#             print (first)
-#             box1 = box(*first)
-#             for second in tup[1]:
-#                 print (second)
-#                 box2 = box(*second)
-#                 bool_check = box1.intersects(box2)
-#     #             if (bool_check == True): 
-#     #                 print("True")
-#     #                 flag = 1
-#     #         if (flag==1): break
-#     #     if (flag==0): final.append(tup)
-#     #     flag = 0
-#     # if (final == []): print ("No possible combination of units will fit in room")
-#     # return final
 
 
 
@@ -149,18 +163,11 @@ def main():
     room1 = Room(shapeOfRoom)
     chiller = Unit(numberOfChillers,lengthWidthChiller)
     boiler = Unit(numberOfBoilers, lengthWidthBoiler)
-    listaz1 = chiller.possiblePlacements(room1.polygon)
-    print(listaz1)
-    listaz2 = chiller.multiple(room1.polygon)
-    chiller.clearOverlaps()
-    #listaz2 = boiler.multiple(room1.polygon)
-    #print(listaz2)
-    #print(finalConfigurations(finalTuple(listaz1,listaz2)))
-    # print (list(chiller.box.exterior.coords))
-    # print (list(room1.polygon.exterior.coords))
-
-    # if (room1.polygon.contains(chiller.box)): print('True')
-    # else: print ('False')
+    chiller.multiple(room1.polygon)
+    # chiller.clearOverlaps()
+    boiler.multiple(room1.polygon)
+    # boiler.clearOverlaps()
+    finalConfigurations(chiller.clearOverlaps(),boiler.clearOverlaps())
 
 
 
