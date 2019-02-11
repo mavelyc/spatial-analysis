@@ -8,24 +8,13 @@ from shapely.geometry import box
 from shapely.affinity import translate
 from ast import literal_eval
 import itertools as it
+import matplotlib.pyplot as plt
 
 numberOfChillers = 0
 numberOfBoilers = 0
 shapeOfRoom = 0
 lengthWidthChiller = 0
 lengthWidthBoiler = 0
-
-        
-def howMany():
-    global numberOfChillers, numberOfBoilers, shapeOfRoom, lengthWidthBoiler, lengthWidthChiller
-    shapeOfRoom = literal_eval(input("Enter the coordinates of the room [(0,0),(1,1)...]: "))
-    numberOfChillers = literal_eval(input("Enter the number of chillers: "))
-    lengthWidthChiller = literal_eval(input("Enter the width and length of chiller [width,length]: "))
-    numberOfBoilers = literal_eval(input("Enter the number of boilers: "))
-    lengthWidthBoiler = literal_eval(input("Enter the width and length of boiler [width,length]: "))
-
-def finalTuple(list1, list2):
-    return list(it.product(list1,list2))
 
 
 class Room:
@@ -115,6 +104,15 @@ class Unit:
         #print (self.multiList)
 
 
+def howMany():
+    global numberOfChillers, numberOfBoilers, shapeOfRoom, lengthWidthBoiler, lengthWidthChiller
+    shapeOfRoom = literal_eval(input("Enter the coordinates of the room [(0,0),(1,1)...]: "))
+    numberOfChillers = literal_eval(input("Enter the number of chillers: "))
+    lengthWidthChiller = literal_eval(input("Enter the width and length of chiller [width,length]: "))
+    numberOfBoilers = literal_eval(input("Enter the number of boilers: "))
+    lengthWidthBoiler = literal_eval(input("Enter the width and length of boiler [width,length]: "))
+
+
 def boundsCheck(val1, val2):
         # print (val1,val2)
         min_y_2 = val2[1]
@@ -151,9 +149,36 @@ def finalConfigurations(tup1, tup2):
                 final.append(i+test)
             flag = 0
 
-    print (final)    
+    return final    
 
 
+def roomTupToList(listOfTups):
+    ListofLists = []
+    for i in listOfTups:
+        ListofLists.append(list(i))
+    return (ListofLists)
+
+
+def drawRoom(coordsOfRoom):
+    points = coordsOfRoom
+    polygon = plt.Polygon(points, closed=True)
+    return polygon
+
+def initAxis():
+    plt.axes()
+
+def showAxis():
+    plt.axis('scaled')
+    plt.show()
+
+def finalTupToCoords(coordinates):
+    final = []
+    for i in coordinates:
+        tmp = []
+        for each in i:
+            tmp.append(list(each))
+        final.append(tmp)
+    print (final)
 
 
 
@@ -167,7 +192,21 @@ def main():
     # chiller.clearOverlaps()
     boiler.multiple(room1.polygon)
     # boiler.clearOverlaps()
-    finalConfigurations(chiller.clearOverlaps(),boiler.clearOverlaps())
+    finalConfig = finalConfigurations(chiller.clearOverlaps(),boiler.clearOverlaps())
+    finalTupToCoords(finalConfig)
+    
+
+    colors = ["g","r","c","m","y","k","w"]
+
+    initAxis()
+    room = drawRoom(roomTupToList(shapeOfRoom))
+    plt.gca().add_patch(room)
+    points2 = [[0,0],[1,1],[1,0]]
+    polygon2 = plt.Polygon(points2, closed=True, color=colors[2])
+    plt.gca().add_patch(polygon2)
+
+
+    showAxis()
 
 
 
