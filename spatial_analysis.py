@@ -150,12 +150,12 @@ def finalConfigurations(tup1, tup2):
     flag = 0
 
     for i in tup1:
-        print("test")
+        #print("test")
         for test in tup2:
-            print ("test1")
+            #print ("test1")
             for tup in i:
                 for check in test:
-                    print ("test3")
+                    #print ("test3")
                     #print (tup,check)
                     if(boundsCheck(tup,check)!=True): flag = 1
                     #print (flag)
@@ -252,10 +252,9 @@ def main():
         plt.gca().add_patch(room)
         # finalList = finalTupToCoords(finalConfig2)
         colors = ["g","r","c","m","y","k","w"]
-        r=r%(len(finalList))
         j= 0
         j=j%6
-        for i in range(3):
+        for i in range(len(finalList[0])):
             j+=1
             polygon2 = plt.Rectangle(*finalList[r][i],fc=colors[j],edgecolor="b")
             plt.gca().add_patch(polygon2)
