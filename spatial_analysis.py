@@ -251,12 +251,12 @@ def main():
         room = drawRoom(roomTupToList(shapeOfRoom))
         plt.gca().add_patch(room)
         # finalList = finalTupToCoords(finalConfig2)
-        colors = ["g","r","c","m","y","k","w"]
-        j= 0
-        j=j%6
-        for i in range(len(finalList[0])):
-            j+=1
-            polygon2 = plt.Rectangle(*finalList[r][i],fc=colors[j],edgecolor="b")
+        #colors = ["g","r","c","m","y","k","w"]
+        #j= 0
+        #j=j%6
+        for i in finalList[r]:
+            #j+=1
+            polygon2 = plt.Rectangle(*i,fc="r",edgecolor="b")
             plt.gca().add_patch(polygon2)
 
         showAxis()
