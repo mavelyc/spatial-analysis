@@ -108,13 +108,12 @@ def howMany():
     numberOfBoilers = xlrd_test.readBoilerNumber()
     if numberOfBoilers>0:
         lengthWidthBoiler = xlrd_test.readBoilerBounds()
-    numberOfAHUs = literal_eval(input("Enter the number of AHUs: "))
+    numberOfAHUs = xlrd_test.readAHUNumber()
     if numberOfAHUs>0:
-        lengthWidthAHU = literal_eval(input("Enter the width and length of AHU [width,length]: "))
-    numberOfPumps = literal_eval(input("Enter the number of pumps: "))
+        lengthWidthAHU = xlrd_test.readAHUBounds()
+    numberOfPumps = xlrd_test.readPumpNumber()
     if numberOfPumps>0:
-        lengthWidthPump = literal_eval(input("Enter the width and length of pump [width,length]: "))
-
+        lengthWidthPump = xlrd_test.readPumpBounds() 
 
 def boundsCheck(val1, val2):
         min_y_2 = val2[1]

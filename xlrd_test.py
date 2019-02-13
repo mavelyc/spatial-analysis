@@ -32,4 +32,20 @@ def readBoilerBounds():
     boiler_bounds.append(sheet.cell_value(3,6))
     return boiler_bounds
 
+def readAHUNumber():
+    return int(sheet.cell_value(1,9))
+
+def readAHUBounds():
+    AHU_bounds = []
+    AHU_bounds.append(sheet.cell_value(2,9))
+    AHU_bounds.append(sheet.cell_value(3,9))
+    return AHU_bounds
     
+def readPumpNumber():
+    return int(sheet.cell_value(1,12))
+
+def readPumpBounds():
+    Pump_bounds = []
+    Pump_bounds.append(sheet.cell_value(2,12))
+    Pump_bounds.append(sheet.cell_value(3,12))
+    return Pump_bounds
