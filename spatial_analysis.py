@@ -103,12 +103,11 @@ def howMany():
     global numberOfChillers, numberOfBoilers, shapeOfRoom, lengthWidthBoiler, lengthWidthChiller, numberOfAHUs, lengthWidthAHU, numberOfPumps, lengthWidthPump
     shapeOfRoom = xlrd_test.readRoom()
     numberOfChillers = xlrd_test.readChillerNumber()
-    print (numberOfChillers)
     if numberOfChillers>0:
         lengthWidthChiller = xlrd_test.readChillerBounds()
-    numberOfBoilers = literal_eval(input("Enter the number of boilers: "))
+    numberOfBoilers = xlrd_test.readBoilerNumber()
     if numberOfBoilers>0:
-        lengthWidthBoiler = literal_eval(input("Enter the width and length of boiler [width,length]: "))
+        lengthWidthBoiler = xlrd_test.readBoilerBounds()
     numberOfAHUs = literal_eval(input("Enter the number of AHUs: "))
     if numberOfAHUs>0:
         lengthWidthAHU = literal_eval(input("Enter the width and length of AHU [width,length]: "))

@@ -23,5 +23,13 @@ def readChillerBounds():
     chiller_bounds.append(sheet.cell_value(3,3))
     return chiller_bounds
 
+def readBoilerNumber():
+    return int(sheet.cell_value(1,6))
+
+def readBoilerBounds():
+    boiler_bounds = []
+    boiler_bounds.append(sheet.cell_value(2,6))
+    boiler_bounds.append(sheet.cell_value(3,6))
+    return boiler_bounds
 
     
