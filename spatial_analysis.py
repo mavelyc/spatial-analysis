@@ -105,7 +105,7 @@ def howMany():
     numberOfChillers = xlrd_test.readChillerNumber()
     print (numberOfChillers)
     if numberOfChillers>0:
-        lengthWidthChiller = literal_eval(input("Enter the width and length of chiller [width,length]: "))
+        lengthWidthChiller = xlrd_test.readChillerBounds()
     numberOfBoilers = literal_eval(input("Enter the number of boilers: "))
     if numberOfBoilers>0:
         lengthWidthBoiler = literal_eval(input("Enter the width and length of boiler [width,length]: "))

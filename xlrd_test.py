@@ -17,6 +17,11 @@ def readRoom():
 def readChillerNumber():
     return int(sheet.cell_value(1,3))
 
+def readChillerBounds():
+    chiller_bounds = []
+    chiller_bounds.append(sheet.cell_value(2,3))
+    chiller_bounds.append(sheet.cell_value(3,3))
+    return chiller_bounds
 
 
     
