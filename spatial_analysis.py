@@ -101,8 +101,9 @@ class Unit:
 
 def howMany():
     global numberOfChillers, numberOfBoilers, shapeOfRoom, lengthWidthBoiler, lengthWidthChiller, numberOfAHUs, lengthWidthAHU, numberOfPumps, lengthWidthPump
-    # shapeOfRoom = literal_eval(input("Enter the coordinates of the room [(0,0),(1,1)...]: "))
-    numberOfChillers = literal_eval(input("Enter the number of chillers: "))
+    shapeOfRoom = xlrd_test.readRoom()
+    numberOfChillers = xlrd_test.readChillerNumber()
+    print (numberOfChillers)
     if numberOfChillers>0:
         lengthWidthChiller = literal_eval(input("Enter the width and length of chiller [width,length]: "))
     numberOfBoilers = literal_eval(input("Enter the number of boilers: "))
@@ -196,8 +197,7 @@ def finalTupToCoords(coordinates):
 def main():
     global numberOfChillers, numberOfBoilers, shapeOfRoom, lengthWidthBoiler, lengthWidthChiller, numberOfAHUs, lengthWidthAHU, numberOfPumps, lengthWidthPump
     #try:
-    shapeOfRoom = xlrd_test.readRoom()
-    print(shapeOfRoom)
+    
     howMany()
     room1 = Room(shapeOfRoom)
 
