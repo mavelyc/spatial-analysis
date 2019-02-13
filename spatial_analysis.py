@@ -5,6 +5,7 @@ from shapely.affinity import translate
 from ast import literal_eval
 import itertools as it
 import matplotlib.pyplot as plt
+import xlrd_test
 
 numberOfChillers = 0
 numberOfBoilers = 0
@@ -57,7 +58,6 @@ class Unit:
         self.multiList = check
 
     def boundaryCheck(self, val1, val2):
-        # print (val1,val2)
         min_y_2 = val2[1]
         max_y_2 = val2[3]
         min_y_1 = val1[1]
@@ -101,7 +101,7 @@ class Unit:
 
 def howMany():
     global numberOfChillers, numberOfBoilers, shapeOfRoom, lengthWidthBoiler, lengthWidthChiller, numberOfAHUs, lengthWidthAHU, numberOfPumps, lengthWidthPump
-    shapeOfRoom = literal_eval(input("Enter the coordinates of the room [(0,0),(1,1)...]: "))
+    # shapeOfRoom = literal_eval(input("Enter the coordinates of the room [(0,0),(1,1)...]: "))
     numberOfChillers = literal_eval(input("Enter the number of chillers: "))
     if numberOfChillers>0:
         lengthWidthChiller = literal_eval(input("Enter the width and length of chiller [width,length]: "))
@@ -175,7 +175,6 @@ def showAxis():
 
 def finalTupToCoords(coordinates):
     final = []
-    #print (coordinates)
     for i in coordinates:
         tmp2 = []
         for bounds in i:
@@ -195,7 +194,10 @@ def finalTupToCoords(coordinates):
 
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 def main():
+    global numberOfChillers, numberOfBoilers, shapeOfRoom, lengthWidthBoiler, lengthWidthChiller, numberOfAHUs, lengthWidthAHU, numberOfPumps, lengthWidthPump
     #try:
+    shapeOfRoom = xlrd_test.readRoom()
+    print(shapeOfRoom)
     howMany()
     room1 = Room(shapeOfRoom)
 
@@ -228,7 +230,6 @@ def main():
     # finalConfig1 = finalConfigurations(chiller_val,boiler_val)
     # finalConfig2 = finalConfigurations(AHU_val, pump_val)
     finalConfig = finalConfigurations(finalConfigurations(chiller_val,boiler_val),finalConfigurations(AHU_val, pump_val))
-    #finalTupToCoords(finalConfig)
     finalList = finalTupToCoords(finalConfig)
     #print(finalConfig)
 
