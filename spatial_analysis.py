@@ -193,7 +193,6 @@ def finalTupToCoords(coordinates):
 
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 def main():
-    global numberOfChillers, numberOfBoilers, shapeOfRoom, lengthWidthBoiler, lengthWidthChiller, numberOfAHUs, lengthWidthAHU, numberOfPumps, lengthWidthPump
     #try:
     
     howMany()
