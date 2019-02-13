@@ -46,7 +46,7 @@ class Unit:
             x_trans+=1
             new_geom = self.box
             new_geom = translate(new_geom,x_trans)
-        return self.listBounds
+        self.listBounds
 
     def multiple(self, room):
         self.possiblePlacements(room)
@@ -82,15 +82,10 @@ class Unit:
         tmp = []
         if (self.number == 1): return self.multiList
         for tup in self.multiList:
-            # print (tup)
-            # print (flag)
             while (i<self.number):
                 val = tup[i]
-                # print(val)
                 for elem in tup:
-                    if (elem == val): 
-                        continue
-                    else:
+                    if (elem != val): 
                         bool_check = self.boundaryCheck(val,elem)
                         if (bool_check != True): 
                             flag = 1                    
@@ -100,7 +95,7 @@ class Unit:
             flag = 0
             i=0     
         self.multiList = tmp
-        return self.multiList
+        #return self.multiList
         #print (self.multiList)
 
 
@@ -122,7 +117,6 @@ def howMany():
 
 
 def boundsCheck(val1, val2):
-        # print (val1,val2)
         min_y_2 = val2[1]
         max_y_2 = val2[3]
         min_y_1 = val1[1]
@@ -133,12 +127,8 @@ def boundsCheck(val1, val2):
         min_x_1 = val1[0]
         max_x_1 = val1[2]
 
-        if (min_y_2 >= max_y_1 or min_y_1 >= max_y_2):
-            #print ("True")
-            return True
-        elif (min_x_2 >= max_x_1 or min_x_1 >= max_x_2):
-            #print ("True")
-            return True
+        if (min_y_2 >= max_y_1 or min_y_1 >= max_y_2): return True
+        elif (min_x_2 >= max_x_1 or min_x_1 >= max_x_2): return True
         
     
 def finalConfigurations(tup1, tup2):
@@ -156,10 +146,7 @@ def finalConfigurations(tup1, tup2):
             for tup in i:
                 for check in test:
                     #print ("test3")
-                    #print (tup,check)
                     if(boundsCheck(tup,check)!=True): flag = 1
-                    #print (flag)
-                #print (flag)
             if (flag==0):
                 final.append(i+test)
             flag = 0
@@ -201,9 +188,6 @@ def finalTupToCoords(coordinates):
             tmp2.append(tuple(tmp))
         final.append(tmp2)
     return final
-
-def display(finalCoords):
-    colors = ["g","r","c","m","y","k","w"]
     
         
 
@@ -223,26 +207,31 @@ def main():
     if (numberOfChillers>0):
         chiller = Unit(numberOfChillers,lengthWidthChiller)
         chiller.multiple(room1.polygon)
-        chiller_val = chiller.clearOverlaps()
+        chiller.clearOverlaps()
+        chiller_val = chiller.multiList
+        print (chiller_val)
     if (numberOfBoilers>0):
         boiler = Unit(numberOfBoilers, lengthWidthBoiler)
         boiler.multiple(room1.polygon)
-        boiler_val = boiler.clearOverlaps()
+        boiler.clearOverlaps()
+        boiler_val = boiler.multiList
     if (numberOfAHUs>0):
         AHU = Unit(numberOfAHUs, lengthWidthAHU)
         AHU.multiple(room1.polygon)
-        AHU_val = AHU.clearOverlaps()
+        AHU.clearOverlaps()
+        AHU_val = AHU.multiList
     if (numberOfPumps>0):
         pump = Unit(numberOfPumps, lengthWidthPump)
         pump.multiple(room1.polygon)
-        pump_val = pump.clearOverlaps()
+        pump.clearOverlaps()
+        pump_val = pump.multiList
 
-    finalConfig1 = finalConfigurations(chiller_val,boiler_val)
-    finalConfig2 = finalConfigurations(AHU_val, pump_val)
-    finalConfig = finalConfigurations(finalConfig1,finalConfig2)
+    # finalConfig1 = finalConfigurations(chiller_val,boiler_val)
+    # finalConfig2 = finalConfigurations(AHU_val, pump_val)
+    finalConfig = finalConfigurations(finalConfigurations(chiller_val,boiler_val),finalConfigurations(AHU_val, pump_val))
     #finalTupToCoords(finalConfig)
     finalList = finalTupToCoords(finalConfig)
-    print(finalConfig)
+    #print(finalConfig)
 
     initAxis()
 
