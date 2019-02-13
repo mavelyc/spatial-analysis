@@ -209,7 +209,6 @@ def main():
         chiller.multiple(room1.polygon)
         chiller.clearOverlaps()
         chiller_val = chiller.multiList
-        print (chiller_val)
     if (numberOfBoilers>0):
         boiler = Unit(numberOfBoilers, lengthWidthBoiler)
         boiler.multiple(room1.polygon)
@@ -239,6 +238,7 @@ def main():
     while(1):
         room = drawRoom(roomTupToList(shapeOfRoom))
         plt.gca().add_patch(room)
+        r = r%(len(finalList))
         # finalList = finalTupToCoords(finalConfig2)
         #colors = ["g","r","c","m","y","k","w"]
         #j= 0
