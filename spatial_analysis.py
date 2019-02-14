@@ -64,16 +64,12 @@ class Unit:
             self.multiList = check
 
     def boundaryCheck(self, val1, val2):
-        if (val2[1] >= val1[3]or val1[1] >= val2[3]):
-            return True
-        elif (val2[0] >= val1[2]or val1[0] >= val2[2]):
-            return True
-
+        if (val2[1] >= val1[3] or val1[1] >= val2[3]): return True
+        elif (val2[0] >= val1[2] or val1[0] >= val2[2]): return True
 
     def clearOverlaps(self):
         i=0
         flag = 0
-
         tmp = []
         if (self.number != 1):
             for tup in self.multiList:
@@ -90,7 +86,6 @@ class Unit:
                 flag = 0
                 i=0     
             self.multiList = tmp
-        print (self.multiList)
             #return self.multiList
 
 
@@ -113,8 +108,7 @@ def howMany():
 def boundsCheck(val1, val2):
         if (val2[1] >= val1[3] or val1[1] >= val2[3]): return True
         elif (val2[0] >= val1[2] or val1[0] >= val2[2]): return True
-        
-    
+
 def finalConfigurations(tup1, tup2):
     if (tup1 == 0):
         return tup2
@@ -122,31 +116,40 @@ def finalConfigurations(tup1, tup2):
         return tup1
     final = []
     flag = 0
-
+    print (tup1)
+    print("---------------------------------")
+    print (tup2)
     for i in tup1:
+        print(i)
         for test in tup2:
+            # print(test)
             for tup in i:
+                print(tup)
                 for check in test:
+                    print(check)
+                    # print (tup,check)
                     if(boundsCheck(tup,check)!=True): flag = 1
             if (flag==0):
-                if (type(test) == list):
+                if (type(test) == list and type(i)==list):
+                    tmp = list(i)
+                    tmp.append(check)
+                    final.append(tmp)
+                elif (type(test) == list):
                     final.append(i+tuple(test))
                 elif (type(i) == list):
                     final.append(tuple(i) + test) 
                 else:
                     final.append(i+test)
             flag = 0
-    print("Test")
-    print(final)
+    print ("-----------------")
+    print (final)
     return final    
-
 
 def roomTupToList(listOfTups):
     ListofLists = []
     for i in listOfTups:
         ListofLists.append(list(i))
     return (ListofLists)
-
 
 def drawRoom(coordsOfRoom):
     points = coordsOfRoom
@@ -173,11 +176,9 @@ def finalTupToCoords(coordinates):
             tmp.extend([width,length])
             tmp2.append(tuple(tmp))
         final.append(tmp2)
+    # print(final)
     return final
-    
-        
-
-
+      
 
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 def main():
@@ -211,8 +212,6 @@ def main():
         pump.clearOverlaps()
         pump_val = pump.multiList
 
-    # finalConfig1 = finalConfigurations(chiller_val,boiler_val)
-    # finalConfig2 = finalConfigurations(AHU_val, pump_val)
     finalConfig = finalConfigurations(finalConfigurations(chiller_val,boiler_val),finalConfigurations(AHU_val, pump_val))
     finalList = finalTupToCoords(finalConfig)
     #print(finalConfig)
