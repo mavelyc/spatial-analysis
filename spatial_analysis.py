@@ -131,7 +131,8 @@ def finalConfigurations(tup1, tup2):
                     if(boundsCheck(tup,check)!=True): flag = 1
             if (flag==0):
                 if (type(test) == list and type(i)==list):
-                    tmp = list(i)
+                    tmp = []
+                    tmp.append(tup)
                     tmp.append(check)
                     final.append(tmp)
                 elif (type(test) == list):
