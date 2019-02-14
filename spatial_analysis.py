@@ -52,51 +52,46 @@ class Unit:
     def multiple(self, room):
         self.possiblePlacements(room)
         num = self.number
-        if (num == 1): return self.listBounds
-        check = list(it.combinations(self.listBounds,num))
-        if (check == []): print ("Too many units for this area")
-        self.multiList = check
+        if (num == 1): 
+            one_it = []
+            for i in self.listBounds:
+                tmp_i = [i]
+                one_it.append(tmp_i)
+            self.multiList = one_it
+        else:
+            check = list(it.combinations(self.listBounds,num))
+            # if (check == []): print ("Too many units for this area")
+            self.multiList = check
 
     def boundaryCheck(self, val1, val2):
-        min_y_2 = val2[1]
-        max_y_2 = val2[3]
-        min_y_1 = val1[1]
-        max_y_1 = val1[3]
-        
-        min_x_2 = val2[0]
-        max_x_2 = val2[2]
-        min_x_1 = val1[0]
-        max_x_1 = val1[2]
-
-        if (min_y_2 >= max_y_1 or min_y_1 >= max_y_2):
-            #print ("True")
+        if (val2[1] >= val1[3]or val1[1] >= val2[3]):
             return True
-        elif (min_x_2 >= max_x_1 or min_x_1 >= max_x_2):
-            #print ("True")
+        elif (val2[0] >= val1[2]or val1[0] >= val2[2]):
             return True
 
 
     def clearOverlaps(self):
         i=0
         flag = 0
+
         tmp = []
-        if (self.number == 1): return self.multiList
-        for tup in self.multiList:
-            while (i<self.number):
-                val = tup[i]
-                for elem in tup:
-                    if (elem != val): 
-                        bool_check = self.boundaryCheck(val,elem)
-                        if (bool_check != True): 
-                            flag = 1                    
-                i+=1
-            if (flag == 0): tmp.append(tup)
-            bool_check = False
-            flag = 0
-            i=0     
-        self.multiList = tmp
-        #return self.multiList
-        #print (self.multiList)
+        if (self.number != 1):
+            for tup in self.multiList:
+                while (i<self.number):
+                    val = tup[i]
+                    for elem in tup:
+                        if (elem != val): 
+                            bool_check = self.boundaryCheck(val,elem)
+                            if (bool_check != True): 
+                                flag = 1                    
+                    i+=1
+                if (flag == 0): tmp.append(tup)
+                bool_check = False
+                flag = 0
+                i=0     
+            self.multiList = tmp
+        print (self.multiList)
+            #return self.multiList
 
 
 def howMany():
@@ -116,18 +111,8 @@ def howMany():
         lengthWidthPump = xlrd_test.readPumpBounds() 
 
 def boundsCheck(val1, val2):
-        min_y_2 = val2[1]
-        max_y_2 = val2[3]
-        min_y_1 = val1[1]
-        max_y_1 = val1[3]
-        
-        min_x_2 = val2[0]
-        max_x_2 = val2[2]
-        min_x_1 = val1[0]
-        max_x_1 = val1[2]
-
-        if (min_y_2 >= max_y_1 or min_y_1 >= max_y_2): return True
-        elif (min_x_2 >= max_x_1 or min_x_1 >= max_x_2): return True
+        if (val2[1] >= val1[3] or val1[1] >= val2[3]): return True
+        elif (val2[0] >= val1[2] or val1[0] >= val2[2]): return True
         
     
 def finalConfigurations(tup1, tup2):
@@ -139,17 +124,20 @@ def finalConfigurations(tup1, tup2):
     flag = 0
 
     for i in tup1:
-        #print("test")
         for test in tup2:
-            #print ("test1")
             for tup in i:
                 for check in test:
-                    #print ("test3")
                     if(boundsCheck(tup,check)!=True): flag = 1
             if (flag==0):
-                final.append(i+test)
+                if (type(test) == list):
+                    final.append(i+tuple(test))
+                elif (type(i) == list):
+                    final.append(tuple(i) + test) 
+                else:
+                    final.append(i+test)
             flag = 0
-
+    print("Test")
+    print(final)
     return final    
 
 
@@ -193,8 +181,7 @@ def finalTupToCoords(coordinates):
 
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 def main():
-    #try:
-    
+    # try:
     howMany()
     room1 = Room(shapeOfRoom)
 
@@ -251,8 +238,8 @@ def main():
         if (command == "X" or command == "x"): break
         r+=1
 
-    #except:
-        # print ("Not possible")
+    # except:
+    #     print ("Not possible")
 
 
 if __name__ == '__main__':
