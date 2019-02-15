@@ -110,30 +110,34 @@ def boundsCheck(val1, val2):
         elif (val2[0] >= val1[2] or val1[0] >= val2[2]): return True
 
 def finalConfigurations(tup1, tup2):
+    print ("New")
+    print (tup1)
+    print("---------------------------------")
+    print (tup2)
     if (tup1 == 0):
         return tup2
     if (tup2 == 0): 
         return tup1
     final = []
     flag = 0
-    print (tup1)
-    print("---------------------------------")
-    print (tup2)
     for i in tup1:
-        print(i)
+        #print(i)
         for test in tup2:
             # print(test)
             for tup in i:
-                print(tup)
+                #print(tup)
                 for check in test:
-                    print(check)
+                    # print(check)
                     # print (tup,check)
                     if(boundsCheck(tup,check)!=True): flag = 1
             if (flag==0):
                 if (type(test) == list and type(i)==list):
-                    tmp = []
-                    tmp.append(tup)
-                    tmp.append(check)
+                    tmp = list(i)
+                    # print (tmp)
+                    # print (i,test)
+                    for j in test:
+                        print (j)
+                        tmp.append(j)
                     final.append(tmp)
                 elif (type(test) == list):
                     final.append(i+tuple(test))
