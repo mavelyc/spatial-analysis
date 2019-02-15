@@ -110,10 +110,10 @@ def boundsCheck(val1, val2):
         elif (val2[0] >= val1[2] or val1[0] >= val2[2]): return True
 
 def finalConfigurations(tup1, tup2):
-    print ("New")
-    print (tup1)
-    print("---------------------------------")
-    print (tup2)
+    # print ("New")
+    # print (tup1)
+    # print("---------------------------------")
+    # print (tup2)
     if (tup1 == 0):
         return tup2
     if (tup2 == 0): 
@@ -136,7 +136,7 @@ def finalConfigurations(tup1, tup2):
                     # print (tmp)
                     # print (i,test)
                     for j in test:
-                        print (j)
+                        # print (j)
                         tmp.append(j)
                     final.append(tmp)
                 elif (type(test) == list):
@@ -146,8 +146,8 @@ def finalConfigurations(tup1, tup2):
                 else:
                     final.append(i+test)
             flag = 0
-    print ("-----------------")
-    print (final)
+    # print ("-----------------")
+    # print (final)
     return final    
 
 def roomTupToList(listOfTups):
