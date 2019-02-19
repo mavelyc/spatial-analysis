@@ -99,7 +99,8 @@ class Unit:
 
 
 def howMany():
-    global numberOfChillers, numberOfBoilers, shapeOfRoom, lengthWidthBoiler, lengthWidthChiller, numberOfAHUs, lengthWidthAHU, numberOfPumps, lengthWidthPump
+    global numberOfChillers, numberOfBoilers, shapeOfRoom, lengthWidthBoiler, lengthWidthChiller, numberOfAHUs, lengthWidthAHU 
+    global numberOfPumps, lengthWidthPump, numberUnit5, lengthWidthUnit5, numberUnit6, lengthWidthUnit6, numberUnit7, lengthWidthUnit7, lengthWidthUnit8, numberUnit8
     shapeOfRoom = xlrd_test.readRoom()
     numberOfChillers = xlrd_test.readChillerNumber()
     if numberOfChillers>0:
@@ -113,6 +114,15 @@ def howMany():
     numberOfPumps = xlrd_test.readPumpNumber()
     if numberOfPumps>0:
         lengthWidthPump = xlrd_test.readPumpBounds() 
+    numberUnit5 = xlrd_test.readNumberUnit5()
+    if numberUnit5>0:
+        lengthWidthUnit5 = xlrd_test.readUnit5Bounds()
+    numberUnit6 = xlrd_test.readNumberUnit6()
+    print (numberUnit6)
+    if numberUnit6>0:
+        lengthWidthUnit6 = xlrd_test.readUnit6Bounds()
+        print (lengthWidthUnit6)
+
 
 def boundsCheck(val1, val2):
         if (val2[1] >= val1[3] or val1[1] >= val2[3]): return True

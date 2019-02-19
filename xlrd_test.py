@@ -49,3 +49,21 @@ def readPumpBounds():
     Pump_bounds.append(sheet.cell_value(2,12))
     Pump_bounds.append(sheet.cell_value(3,12))
     return Pump_bounds
+
+def readNumberUnit5():
+    return int(sheet.cell_value(1,15))
+
+def readUnit5Bounds():
+    Unit5_bounds = []
+    Unit5_bounds.append(sheet.cell_value(2,15))
+    Unit5_bounds.append(sheet.cell_value(3,15))
+    return Unit5_bounds
+
+def readNumberUnit6():
+    return int(sheet.cell_value(1,18))
+
+def readUnit6Bounds():
+    Unit6_bounds = []
+    Unit6_bounds.append(sheet.cell_value(2,18))
+    Unit6_bounds.append(sheet.cell_value(3,18))
+    return Unit6_bounds
