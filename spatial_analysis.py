@@ -15,7 +15,16 @@ lengthWidthBoiler = 0
 numberOfAHUs = 0
 lengthWidthAHU =0 
 numberOfPumps = 0
-lengthWidthPump =0 
+lengthWidthPump =0
+
+numberUnit5 =0
+lengthWidthUnit5=0
+numberUnit6=0
+lengthWidthUnit6=0
+numberUnit7=0
+lengthWidthUnit7=0
+numberUnit8=0
+lengthWidthUnit8=0
 
 
 class Room:
@@ -187,63 +196,63 @@ def finalTupToCoords(coordinates):
 
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 def main():
-    # try:
-    howMany()
-    room1 = Room(shapeOfRoom)
+    try:
+        howMany()
+        room1 = Room(shapeOfRoom)
 
-    chiller_val = 0
-    boiler_val = 0
-    AHU_val = 0
-    pump_val = 0
+        chiller_val = 0
+        boiler_val = 0
+        AHU_val = 0
+        pump_val = 0
 
-    if (numberOfChillers>0):
-        chiller = Unit(numberOfChillers,lengthWidthChiller)
-        chiller.multiple(room1.polygon)
-        chiller.clearOverlaps()
-        chiller_val = chiller.multiList
-    if (numberOfBoilers>0):
-        boiler = Unit(numberOfBoilers, lengthWidthBoiler)
-        boiler.multiple(room1.polygon)
-        boiler.clearOverlaps()
-        boiler_val = boiler.multiList
-    if (numberOfAHUs>0):
-        AHU = Unit(numberOfAHUs, lengthWidthAHU)
-        AHU.multiple(room1.polygon)
-        AHU.clearOverlaps()
-        AHU_val = AHU.multiList
-    if (numberOfPumps>0):
-        pump = Unit(numberOfPumps, lengthWidthPump)
-        pump.multiple(room1.polygon)
-        pump.clearOverlaps()
-        pump_val = pump.multiList
+        if (numberOfChillers>0):
+            chiller = Unit(numberOfChillers,lengthWidthChiller)
+            chiller.multiple(room1.polygon)
+            chiller.clearOverlaps()
+            chiller_val = chiller.multiList
+        if (numberOfBoilers>0):
+            boiler = Unit(numberOfBoilers, lengthWidthBoiler)
+            boiler.multiple(room1.polygon)
+            boiler.clearOverlaps()
+            boiler_val = boiler.multiList
+        if (numberOfAHUs>0):
+            AHU = Unit(numberOfAHUs, lengthWidthAHU)
+            AHU.multiple(room1.polygon)
+            AHU.clearOverlaps()
+            AHU_val = AHU.multiList
+        if (numberOfPumps>0):
+            pump = Unit(numberOfPumps, lengthWidthPump)
+            pump.multiple(room1.polygon)
+            pump.clearOverlaps()
+            pump_val = pump.multiList
 
-    finalConfig = finalConfigurations(finalConfigurations(chiller_val,boiler_val),finalConfigurations(AHU_val, pump_val))
-    finalList = finalTupToCoords(finalConfig)
-    #print(finalConfig)
+        finalConfig = finalConfigurations(finalConfigurations(chiller_val,boiler_val),finalConfigurations(AHU_val, pump_val))
+        finalList = finalTupToCoords(finalConfig)
+        #print(finalConfig)
 
-    initAxis()
+        initAxis()
 
-    r = 0
-    while(1):
-        room = drawRoom(roomTupToList(shapeOfRoom))
-        plt.gca().add_patch(room)
-        r = r%(len(finalList))
-        # finalList = finalTupToCoords(finalConfig2)
-        #colors = ["g","r","c","m","y","k","w"]
-        #j= 0
-        #j=j%6
-        for i in finalList[r]:
-            #j+=1
-            polygon2 = plt.Rectangle(*i,fc="r",edgecolor="b")
-            plt.gca().add_patch(polygon2)
+        r = 0
+        while(1):
+            room = drawRoom(roomTupToList(shapeOfRoom))
+            plt.gca().add_patch(room)
+            r = r%(len(finalList))
+            # finalList = finalTupToCoords(finalConfig2)
+            #colors = ["g","r","c","m","y","k","w"]
+            #j= 0
+            #j=j%6
+            for i in finalList[r]:
+                #j+=1
+                polygon2 = plt.Rectangle(*i,fc="r",edgecolor="b")
+                plt.gca().add_patch(polygon2)
 
-        showAxis()
-        command = input("Press Enter to view more options or press X/x to close: ")
-        if (command == "X" or command == "x"): break
-        r+=1
+            showAxis()
+            command = input("Press Enter to view more options or press X/x to close: ")
+            if (command == "X" or command == "x"): break
+            r+=1
 
-    # except:
-    #     print ("Not possible")
+    except:
+        print ("Not possible")
 
 
 if __name__ == '__main__':
