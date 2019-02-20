@@ -118,11 +118,16 @@ def howMany():
     if numberUnit5>0:
         lengthWidthUnit5 = xlrd_test.readUnit5Bounds()
     numberUnit6 = xlrd_test.readNumberUnit6()
-    print (numberUnit6)
     if numberUnit6>0:
         lengthWidthUnit6 = xlrd_test.readUnit6Bounds()
-        print (lengthWidthUnit6)
-
+    numberUnit7 = xlrd_test.readNumberUnit7()
+    if numberUnit7>0:
+        lengthWidthUnit7 = xlrd_test.readUnit7Bounds()
+    numberUnit8 = xlrd_test.readNumberUnit8()
+    print (numberUnit8)
+    if numberUnit8>0:
+        lengthWidthUnit8 = xlrd_test.readUnit8Bounds()
+        print (lengthWidthUnit8)
 
 def boundsCheck(val1, val2):
         if (val2[1] >= val1[3] or val1[1] >= val2[3]): return True
@@ -214,6 +219,7 @@ def main():
         boiler_val = 0
         AHU_val = 0
         pump_val = 0
+        unit_val = 0
 
         if (numberOfChillers>0):
             chiller = Unit(numberOfChillers,lengthWidthChiller)
@@ -235,7 +241,19 @@ def main():
             pump.multiple(room1.polygon)
             pump.clearOverlaps()
             pump_val = pump.multiList
+        if (numberUnit5>0):
+            unit5 = Unit(numberUnit5, lengthWidthUnit5)
+            unit5.multiple(room1.polygon)
+            unit5.clearOverlaps()
+            unit_val = unit5.multiList
+        if (numberUnit6>0):
+            unit6 = Unit(numberUnit6, lengthWidthUnit6)
+            unit6.multiple(room1.polygon)
+            unit6.clearOverlaps()
+            unit_val = unit6.multiList
 
+
+        #implement switch case
         finalConfig = finalConfigurations(finalConfigurations(chiller_val,boiler_val),finalConfigurations(AHU_val, pump_val))
         finalList = finalTupToCoords(finalConfig)
         #print(finalConfig)

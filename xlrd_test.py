@@ -67,3 +67,21 @@ def readUnit6Bounds():
     Unit6_bounds.append(sheet.cell_value(2,18))
     Unit6_bounds.append(sheet.cell_value(3,18))
     return Unit6_bounds
+
+def readNumberUnit7():
+    return int(sheet.cell_value(1,21))
+
+def readUnit7Bounds():
+    Unit7_bounds = []
+    Unit7_bounds.append(sheet.cell_value(2,21))
+    Unit7_bounds.append(sheet.cell_value(3,21))
+    return Unit7_bounds
+
+def readNumberUnit8():
+    return int(sheet.cell_value(1,24))
+
+def readUnit8Bounds():
+    Unit8_bounds = []
+    Unit8_bounds.append(sheet.cell_value(2,24))
+    Unit8_bounds.append(sheet.cell_value(3,24))
+    return Unit8_bounds
