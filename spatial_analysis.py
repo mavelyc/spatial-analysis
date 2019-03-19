@@ -56,6 +56,8 @@ class Unit:
             x_trans+=1
             new_geom = self.box
             new_geom = translate(new_geom,x_trans)
+            print(len(self.listBounds))
+            if (len(self.listBounds)>100000): break
         self.listBounds
 
     def multiple(self, room):
@@ -68,13 +70,23 @@ class Unit:
                 one_it.append(tmp_i)
             self.multiList = one_it
         else:
-            check = list(it.combinations(self.listBounds,num))
+            check = list(self.combinations(self.listBounds,num))
             # if (check == []): print ("Too many units for this area")
             self.multiList = check
 
     def boundaryCheck(self, val1, val2):
         if (val2[1] >= val1[3] or val1[1] >= val2[3]): return True
         elif (val2[0] >= val1[2] or val1[0] >= val2[2]): return True
+
+    def combinations(self, iterable, r):
+        pool = tuple(iterable)
+        n = len(pool)
+        # if n>100000: n=100000
+        count=0
+        for indices in it.permutations(range(n), r):
+            count+=1
+            if sorted(indices) == list(indices):
+                yield tuple(pool[i] for i in indices)
 
     def clearOverlaps(self):
         i=0
@@ -94,6 +106,7 @@ class Unit:
                 bool_check = False
                 flag = 0
                 i=0     
+                if(len(tmp)>100000): break
             self.multiList = tmp
             #return self.multiList
 
@@ -124,24 +137,26 @@ def howMany():
     if numberUnit7>0:
         lengthWidthUnit7 = xlrd_test.readUnit7Bounds()
     numberUnit8 = xlrd_test.readNumberUnit8()
-    print (numberUnit8)
     if numberUnit8>0:
         lengthWidthUnit8 = xlrd_test.readUnit8Bounds()
-        print (lengthWidthUnit8)
 
 def boundsCheck(val1, val2):
         if (val2[1] >= val1[3] or val1[1] >= val2[3]): return True
         elif (val2[0] >= val1[2] or val1[0] >= val2[2]): return True
 
 def finalConfigurations(tup1, tup2):
-    # print ("New")
-    # print (tup1)
-    # print("---------------------------------")
-    # print (tup2)
     if (tup1 == 0):
+        print ("tup2=" , len(tup2))
+        print("---------------------------------")
         return tup2
+
     if (tup2 == 0): 
+        print ("tup1=" , len(tup1))
+        print("---------------------------------")
         return tup1
+        
+    print ("tup1=" , len(tup1))
+    print ("tup2=" , len(tup2))
     final = []
     flag = 0
     for i in tup1:
@@ -151,8 +166,6 @@ def finalConfigurations(tup1, tup2):
             for tup in i:
                 #print(tup)
                 for check in test:
-                    # print(check)
-                    # print (tup,check)
                     if(boundsCheck(tup,check)!=True): flag = 1
             if (flag==0):
                 if (type(test) == list and type(i)==list):
@@ -170,8 +183,11 @@ def finalConfigurations(tup1, tup2):
                 else:
                     final.append(i+test)
             flag = 0
+        if (len(final)>100000):
+            break
     # print ("-----------------")
-    # print (final)
+    print (len(final))
+    print("---------------------------------")
     return final    
 
 def roomTupToList(listOfTups):
@@ -211,76 +227,108 @@ def finalTupToCoords(coordinates):
 
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 def main():
-    try:
-        howMany()
-        room1 = Room(shapeOfRoom)
+    # try:
+    howMany()
+    room1 = Room(shapeOfRoom)
 
-        chiller_val = 0
-        boiler_val = 0
-        AHU_val = 0
-        pump_val = 0
-        unit_val = 0
+    total = 0
 
-        if (numberOfChillers>0):
-            chiller = Unit(numberOfChillers,lengthWidthChiller)
-            chiller.multiple(room1.polygon)
-            chiller.clearOverlaps()
-            chiller_val = chiller.multiList
-        if (numberOfBoilers>0):
-            boiler = Unit(numberOfBoilers, lengthWidthBoiler)
-            boiler.multiple(room1.polygon)
-            boiler.clearOverlaps()
-            boiler_val = boiler.multiList
-        if (numberOfAHUs>0):
-            AHU = Unit(numberOfAHUs, lengthWidthAHU)
-            AHU.multiple(room1.polygon)
-            AHU.clearOverlaps()
-            AHU_val = AHU.multiList
-        if (numberOfPumps>0):
-            pump = Unit(numberOfPumps, lengthWidthPump)
-            pump.multiple(room1.polygon)
-            pump.clearOverlaps()
-            pump_val = pump.multiList
-        if (numberUnit5>0):
-            unit5 = Unit(numberUnit5, lengthWidthUnit5)
-            unit5.multiple(room1.polygon)
-            unit5.clearOverlaps()
-            unit_val = unit5.multiList
-        if (numberUnit6>0):
-            unit6 = Unit(numberUnit6, lengthWidthUnit6)
-            unit6.multiple(room1.polygon)
-            unit6.clearOverlaps()
-            unit_val = unit6.multiList
+    chiller_val = 0
+    boiler_val = 0
+    AHU_val = 0
+    pump_val = 0
+    unit5_val = 0
+    unit6_val = 0
+    unit7_val = 0
+    unit8_val = 0
 
+    if (numberOfChillers>0):
+        chiller = Unit(numberOfChillers,lengthWidthChiller)
+        chiller.multiple(room1.polygon)
+        chiller.clearOverlaps()
+        chiller_val = chiller.multiList
+        total+=1
+    if (numberOfBoilers>0):
+        boiler = Unit(numberOfBoilers, lengthWidthBoiler)
+        boiler.multiple(room1.polygon)
+        boiler.clearOverlaps()
+        boiler_val = boiler.multiList
+        total+=1
+    if (numberOfAHUs>0):
+        AHU = Unit(numberOfAHUs, lengthWidthAHU)
+        AHU.multiple(room1.polygon)
+        AHU.clearOverlaps()
+        AHU_val = AHU.multiList
+        total+=1
+    if (numberOfPumps>0):
+        pump = Unit(numberOfPumps, lengthWidthPump)
+        pump.multiple(room1.polygon)
+        pump.clearOverlaps()
+        pump_val = pump.multiList
+        total+=1
+    if (numberUnit5>0):
+        unit5 = Unit(numberUnit5, lengthWidthUnit5)
+        unit5.multiple(room1.polygon)
+        unit5.clearOverlaps()
+        unit5_val = unit5.multiList
+        total+=1
+    if (numberUnit6>0):
+        unit6 = Unit(numberUnit6, lengthWidthUnit6)
+        unit6.multiple(room1.polygon)
+        unit6.clearOverlaps()
+        unit_val = unit6.multiList
+        total+=1
 
-        #implement switch case
+    total=4
+
+    # print (total)
+    if (total==1 or total==2):
+        finalConfig = finalConfigurations(chiller_val,boiler_val)
+        finalList = finalTupToCoords(finalConfig)
+    elif(total==3 or total==4):
         finalConfig = finalConfigurations(finalConfigurations(chiller_val,boiler_val),finalConfigurations(AHU_val, pump_val))
         finalList = finalTupToCoords(finalConfig)
-        #print(finalConfig)
+    elif(total==5 or total==6 or total==7 or total==8):
+        tmp1 = finalConfigurations(chiller_val,boiler_val)
+        print("1")
+        tmp2 = finalConfigurations(AHU_val, pump_val)
+        print("2")
+        tmp3 = finalConfigurations(tmp1,tmp2)
+        print("3")
+        tmp4 = finalConfigurations(unit5_val,unit6_val)
+        print("4")
+        tmp5 = finalConfigurations(unit7_val, unit8_val)
+        print("5")
+        tmp6 = finalConfigurations(tmp4,tmp5)
+        print("6")
+        finalConfig = finalConfigurations(tmp3,tmp6)
+        print("fC")
+        finalList = finalTupToCoords(finalConfig)
+        print("fL")
 
-        initAxis()
+    initAxis()
 
-        r = 0
-        while(1):
-            room = drawRoom(roomTupToList(shapeOfRoom))
-            plt.gca().add_patch(room)
-            r = r%(len(finalList))
-            # finalList = finalTupToCoords(finalConfig2)
-            #colors = ["g","r","c","m","y","k","w"]
-            #j= 0
-            #j=j%6
-            for i in finalList[r]:
-                #j+=1
-                polygon2 = plt.Rectangle(*i,fc="r",edgecolor="b")
-                plt.gca().add_patch(polygon2)
+    r = 0
+    while(1):
+        room = drawRoom(roomTupToList(shapeOfRoom))
+        plt.gca().add_patch(room)
+        r = r%(len(finalList))
+        # finalList = finalTupToCoords(finalConfig2)
+        #colors = ["g","r","c","m","y","k","w"]
+        #j= 0
+        #j=j%6
+        for i in finalList[r]:
+            #j+=1
+            polygon2 = plt.Rectangle(*i,fc="r",edgecolor="b")
+            plt.gca().add_patch(polygon2)
 
-            showAxis()
-            command = input("Press Enter to view more options or press X/x to close: ")
-            if (command == "X" or command == "x"): break
-            r+=1
+        showAxis()
+        command = input("Press Enter to view more options or press X/x to close: ")
+        if (command == "X" or command == "x"): break
+        r+=1
 
-    except:
-        print ("Not possible")
+    # except:
+    #     print ("Not possible")
 
 
 if __name__ == '__main__':
