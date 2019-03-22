@@ -56,8 +56,8 @@ class Unit:
             x_trans+=1
             new_geom = self.box
             new_geom = translate(new_geom,x_trans)
-            print(len(self.listBounds))
-            if (len(self.listBounds)>100000): break
+            #print(len(self.listBounds))
+            #if (len(self.listBounds)>100000): break
         self.listBounds
 
     def multiple(self, room):
@@ -106,7 +106,7 @@ class Unit:
                 bool_check = False
                 flag = 0
                 i=0     
-                if(len(tmp)>100000): break
+                if(len(tmp)>5000): break
             self.multiList = tmp
             #return self.multiList
 
@@ -168,6 +168,7 @@ def finalConfigurations(tup1, tup2):
                 for check in test:
                     if(boundsCheck(tup,check)!=True): flag = 1
             if (flag==0):
+                print("in list")
                 if (type(test) == list and type(i)==list):
                     tmp = list(i)
                     # print (tmp)
@@ -183,7 +184,7 @@ def finalConfigurations(tup1, tup2):
                 else:
                     final.append(i+test)
             flag = 0
-        if (len(final)>100000):
+        if (len(final)>10000):
             break
     # print ("-----------------")
     print (len(final))
@@ -221,7 +222,7 @@ def finalTupToCoords(coordinates):
             tmp.extend([width,length])
             tmp2.append(tuple(tmp))
         final.append(tmp2)
-    # print(final)
+    print(final)
     return final
       
 
